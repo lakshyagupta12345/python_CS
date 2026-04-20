@@ -1,0 +1,66 @@
+class Employee:
+    def __init__(self, emp_id, name, basic_salary):
+        self.emp_id = emp_id
+        self.name = name
+        self.basic_salary = basic_salary
+        self.allowances = 0
+        self.deductions = 0
+
+    def add_allowances(self, hra, da):
+        self.allowances = hra + da
+
+    def add_deductions(self, tax, pf):
+        self.deductions = tax + pf
+
+    def calculate_salary(self):
+        return self.basic_salary + self.allowances - self.deductions
+
+    def display_details(self):
+        print("\nEmployee ID:", self.emp_id)
+        print("Name:", self.name)
+        print("Basic Salary:", self.basic_salary)
+        print("Allowances:", self.allowances)
+        print("Deductions:", self.deductions)
+        print("Net Salary:", self.calculate_salary())
+
+
+emp_list = []
+
+while True:
+    print("\n--- Employee Salary Management System ---")
+    print("1. Add Employee")
+    print("2. Display Employees")
+    print("3. Exit")
+
+    choice = int(input("Enter choice: "))
+
+    if choice == 1:
+        emp_id = input("Enter Employee ID: ")
+        name = input("Enter Name: ")
+        basic = float(input("Enter Basic Salary: "))
+        emp = Employee(emp_id, name, basic)
+
+        hra = float(input("Enter HRA: "))
+        da = float(input("Enter DA: "))
+        emp.add_allowances(hra, da)
+
+        tax = float(input("Enter Tax: "))
+        pf = float(input("Enter PF: "))
+        emp.add_deductions(tax, pf)
+
+        emp_list.append(emp)
+        print("Employee Added Successfully!")
+
+    elif choice == 2:
+        if len(emp_list) == 0:
+            print("No employees found!")
+        else:
+            for emp in emp_list:
+                emp.display_details()
+
+    elif choice == 3:
+        print("Exiting program...")
+        break
+
+    else:
+        print("Invalid choice!")
