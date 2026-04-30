@@ -1,0 +1,66 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+np.random.seed(1)
+
+students = ["A","B","C","D","E","F","G","H","I","J"]
+
+data = {
+    "Name": students,
+    "Maths": np.random.randint(40,100,10),
+    "Physics": np.random.randint(40,100,10),
+    "Chemistry": np.random.randint(40,100,10),
+    "English": np.random.randint(40,100,10)
+}
+
+df = pd.DataFrame(data)
+
+df["Total"] = df[["Maths","Physics","Chemistry","English"]].sum(axis=1)
+
+print("DATA:\n")
+print(df)
+
+print("\nMean:\n", df.mean(numeric_only=True))
+print("\nMedian:\n", df.median(numeric_only=True))
+print("\nStd Dev:\n", df.std(numeric_only=True))
+
+top_student = df.loc[df["Total"].idxmax()]
+low_student = df.loc[df["Total"].idxmin()]
+
+print("\nTop Student:\n", top_student)
+print("\nLow Student:\n", low_student)
+
+subject_avg = df[["Maths","Physics","Chemistry","English"]].mean()
+
+print("\nSubject Averages:\n", subject_avg)
+
+plt.figure()
+subject_avg.plot(kind="bar")
+plt.title("Average Marks per Subject")
+plt.ylabel("Marks")
+plt.show()
+
+plt.figure()
+plt.plot(df["Name"], df["Total"], marker="o")
+plt.title("Student Total Scores")
+plt.xlabel("Students")
+plt.ylabel("Total Marks")
+plt.show()
+
+plt.figure()
+plt.hist(df["Maths"], bins=5)
+plt.title("Maths Marks Distribution")
+plt.xlabel("Marks")
+plt.ylabel("Frequency")
+plt.show()
+
+plt.figure()
+plt.pie(subject_avg, labels=subject_avg.index, autopct="%1.1f%%")
+plt.title("Subject Contribution")
+plt.show()
+
+print("\nInsights:")
+print("- Highest scoring subject:", subject_avg.idxmax())
+print("- Lowest scoring subject:", subject_avg.idxmin())
+print("- Overall class average:", df["Total"].mean())
